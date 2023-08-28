@@ -1,0 +1,18 @@
+server:
+  port: 8095
+spring:
+  datasource:
+    url: jdbc:mariadb://localhost:3306/park
+    username: park
+    password: park
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+    open-in-view: false
+    properties:
+      hibernate:
+        show_sql: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
