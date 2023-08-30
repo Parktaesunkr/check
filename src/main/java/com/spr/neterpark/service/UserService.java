@@ -5,27 +5,21 @@ import com.spr.neterpark.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserService {
 
     @Autowired
     private UserRepository userRepository;
 
-    public User findByUserId(String userId){
-        return userRepository.findByUserId(userId);
-    }
-
-    public User findByUserPwd(String userPwd){
-        return userRepository.findByUserPwd(userPwd);
+    public Optional<User> findByUserId(String userId){
+        return userRepository.findById(userId);
     }
 
 
     public User add(User user){
         return userRepository.save(user);
-    }
-
-    public User updatePwd(String userPwd){
-      return   userRepository.save(userPwd);
     }
 
 }

@@ -7,29 +7,38 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
+
 @RestController
 public class UserController {
 
     @Autowired
     private UserService userService;
-
+    
 
     @PostMapping("/login")
-    public int loginUser(@RequestBody User user) {
-        User existingUser = userService.findByUserId(user.getUserId());
+    public int login(@RequestBody User user){
+        Optional<User> user1 = userService.findByUserId(user.getUserId());
+        if (user1.isPresent()) {
+            User existingUser = user1.get();
 
-        if (existingUser != null && existingUser.getUserPwd().equals(user.getUserPwd())) {
-            return 1; // 로그인 성공
+            if (existingUser.getUserPwd() != null && existingUser.getUserPwd().equals(user.getUserPwd())) {
+                return 1;
+            } else {
+                return -1;
+            }
         } else {
-            return -1; // 로그인 실패
+            return -1;
         }
     }
 
 
-    @PostMapping
+    @PostMapping("/signup")
     public void addUser(User user){
         userService.add(user);
     }
+
+
 
 
 
