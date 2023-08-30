@@ -1,31 +1,36 @@
 package com.spr.neterpark.controller;
 
 import com.spr.neterpark.entity.User;
-import com.spr.neterpark.repository.UserRepository;
+import com.spr.neterpark.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class UserController {
 
     @Autowired
-    private UserRepository us;
+    private UserService userService;
+
 
     @PostMapping("/login")
-    private int loginUser(User user){
-        String resultI ="";
-        String resultP = "";
-        if(resultI == user.getUserId()) {
-            if ( resultP == user.getUserPwd()){
-                return 1;
-            }else{
-                return -1;
-            }
+    public int loginUser(@RequestBody User user) {
+        User existingUser = userService.findByUserId(user.getUserId());
+
+        if (existingUser != null && existingUser.getUserPwd().equals(user.getUserPwd())) {
+            return 1; // 로그인 성공
         } else {
-            return -1;
+            return -1; // 로그인 실패
         }
     }
+
+
+    @PostMapping
+    public void addUser(User user){
+        userService.add(user);
+    }
+
+
 
 }
