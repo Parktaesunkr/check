@@ -27,13 +27,11 @@ public class Replpy {
     @JoinColumn(name = "userId", insertable = false, updatable = false)
     private User user; // 아이디
 
-    @Column(length = 18, nullable = false)
+    @Column(length = 18)
     @Temporal(TemporalType.TIMESTAMP)
     private Date writeDate; // 작성 일자
 
-
     private int bno;
-
 
     @ManyToOne
     @JoinColumn(name = "bno", insertable = false, updatable = false)

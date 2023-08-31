@@ -28,7 +28,7 @@ public class Board {
     @JoinColumn(name = "userId", insertable = false, updatable = false)
     private User user; // 아이디
 
-    @Column(length = 20, nullable = false)
+    @Column(length = 20)
     @Temporal(TemporalType.TIMESTAMP)
     private Date regDate; // 작성 일자
 }
