@@ -3,9 +3,7 @@ package com.spr.neterpark.controller;
 import com.spr.neterpark.entity.User;
 import com.spr.neterpark.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -34,11 +32,28 @@ public class UserController {
 
 
     @PostMapping("/signup")
-    public void addUser(User user){
+    public int addUser(@RequestBody User user){
         userService.add(user);
+        return 1; // 확인용
     }
 
 
+    @DeleteMapping("/delete")
+    public int deleteUser(@RequestBody User user){
+        userService.delete(user);
+        return 1; // 확인용
+    }
+
+    @PostMapping("/changePwd")
+    public int changePwd(@RequestBody User user){
+        if (userService.changePwd(user.getUserId(), user.getUserPwd()) == 1) {
+            userService.changePwd(user.getUserId(), user.getUserPwd());
+            return 1;
+        }else {
+            return -1;
+        }
+
+    }
 
 
 
