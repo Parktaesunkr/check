@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
@@ -34,5 +35,11 @@ public class User {
 
     @Column(length = 20)
     private String userAddr; // 주소
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true) // user 삭제시 board삭제
+    private List<Board> board;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true) // user 삭제시 reply삭제
+    private List<Replpy> replpy;
 
 }

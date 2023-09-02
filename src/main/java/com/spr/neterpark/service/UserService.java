@@ -1,17 +1,28 @@
 package com.spr.neterpark.service;
 
+import com.spr.neterpark.entity.Board;
+import com.spr.neterpark.entity.Replpy;
 import com.spr.neterpark.entity.User;
 import com.spr.neterpark.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private BoardService boardService;
+
+    @Autowired
+    private ReplyService replyService;
 
     public Optional<User> findByUserId(String userId){
         return userRepository.findById(userId);
@@ -22,8 +33,31 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public void delete(User userId){
-        userRepository.delete(userId);
+/*
+    public void deleteUser(String  userId) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        List<Board> boardId = boardService.findByUserId();
+        List<Replpy> replpy = replyService.findUserId();
+
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            Board board = optionalBoard.get();
+            // 게시글과 댓글 삭제
+            boardService.findAll(board);
+            user.getBoard().forEach(board -> board.setUser(null));
+            user.getReplpy().forEach(reply -> reply.setUser(null));
+            userRepository.delete(user);
+        }
+    }
+*/
+
+    @Transactional
+    public void deleteUser(String userId) {
+        Optional<User> optionalUser = userRepository.findById(userId); // null 방지
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            userRepository.delete(user);
+        }
     }
 
 /*    public void changePwd1(String userId, String userPwd){

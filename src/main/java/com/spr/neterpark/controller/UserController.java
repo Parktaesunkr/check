@@ -1,10 +1,16 @@
 package com.spr.neterpark.controller;
 
+import com.spr.neterpark.entity.Board;
+import com.spr.neterpark.entity.Replpy;
 import com.spr.neterpark.entity.User;
+import com.spr.neterpark.service.BoardService;
+import com.spr.neterpark.service.ReplyService;
 import com.spr.neterpark.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -12,6 +18,12 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private BoardService boardService;
+
+    @Autowired
+    private ReplyService replyService;
     
 
     @PostMapping("/login")
@@ -37,14 +49,31 @@ public class UserController {
         return 1; // 확인용
     }
 
-
-    @DeleteMapping("/delete")
+   /* @DeleteMapping("/delete")
     public int deleteUser(@RequestBody User user){
-        userService.delete(user);
-        return 1; // 확인용
+        if(user != null) {
+            List<Board> board = boardService.findAll();
+            boardService.deleteBoard(board.get(user));
+            userService.delete(user);
+            return 1; // 확인용
+        }else {
+            return -1;
+        }
+    }*/
+
+    @Transactional
+    @DeleteMapping("/delete")
+    public int deleteUser(@RequestBody User user) {
+            // 사용자 삭제
+        if (user != null) {
+            userService.deleteUser(user.getUserId());
+            return 1; // 확인용
+        }else {
+            return -1;
+        }
     }
 
-    @PostMapping("/changePwd")
+    @PutMapping("/changePwd")
     public int changePwd(@RequestBody User user){
         if (userService.changePwd(user.getUserId(), user.getUserPwd()) == 1) {
             userService.changePwd(user.getUserId(), user.getUserPwd());
