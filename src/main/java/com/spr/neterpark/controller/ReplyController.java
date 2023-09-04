@@ -3,12 +3,10 @@ package com.spr.neterpark.controller;
 import com.spr.neterpark.entity.Replpy;
 import com.spr.neterpark.service.ReplyService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class ReplyController {
@@ -17,19 +15,19 @@ public class ReplyController {
     private ReplyService rs;
 
 
-    @PostMapping("/lire")
-    public List<Replpy> showReply(@RequestBody Replpy replpy){
-        if(replpy.getUser() != null) {
-           return rs.listReply(replpy);
-        }else{
-         return null;
-        }
+    @GetMapping("/lire")
+    public List<Replpy> showReply(Replpy replpy){
+        return rs.listReply(replpy);
     }
 
-    @PostMapping("/upre")
+    @PostMapping("/detre")
+    public List<Replpy> detailReply(@RequestBody Replpy replpy){
+            return rs.detailReply(replpy);
+    }
+
+    @PutMapping("/upre")
     public int updateReply(@RequestBody Replpy replpy){
-        if (replpy.getUserId() != null) {
-            // 댓글의 작성자 아이디가 null이 아닌 경우
+        if (replpy.getUserId() != null) { // 댓글의 작성자 아이디가 null이 아닌 경우
             String Content = replpy.getRContent(); // 댓글 내용 가져오기
             if (Content != null) {
                 replpy.setRContent(Content); // 댓글 내용 업데이트
@@ -43,16 +41,14 @@ public class ReplyController {
         }
     }
 
-
     @PostMapping("/addre")
     public Replpy addReply(@RequestBody Replpy replpy){
-        rs.addReply(replpy);
+        rs.addReply(replpy); // 댓글 추가
         return replpy;
     }
 
     @DeleteMapping("/dere")
-    public Replpy deleteReply(@RequestBody Replpy replpy){
-        rs.deleteReply(replpy);
-        return replpy;
+    public void deleteReply(@RequestBody Replpy replpy){
+        rs.deleteReply(replpy); // 댓글 삭제
     }
 }
