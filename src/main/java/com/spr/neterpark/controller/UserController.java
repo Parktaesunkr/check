@@ -64,12 +64,13 @@ public class UserController {
     @Transactional
     @DeleteMapping("/delete")
     public int deleteUser(@RequestBody User user) {
-            // 사용자 삭제
-        if (user != null) {
+        // 사용자 삭제
+        Optional<User> foundUser = userService.findByUserId(user.getUserId());
+        if (foundUser.isPresent()) { // Optional 내에 사용자가 있는지 확인
             userService.deleteUser(user.getUserId());
-            return 1; // 확인용
-        }else {
-            return -1;
+            return 1; // 사용자가 찾아졌으므로 삭제 성공
+        } else {
+            return -1; // 사용자가 찾아지지 않았으므로 삭제 실패
         }
     }
 
