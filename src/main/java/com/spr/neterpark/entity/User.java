@@ -1,6 +1,8 @@
 package com.spr.neterpark.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -36,10 +38,24 @@ public class User {
     @Column(length = 20)
     private String userAddr; // 주소
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true) // user 삭제시 board삭제
     private List<Board> board;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true) // user 삭제시 reply삭제
     private List<Replpy> replpy;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true) // user 삭제시 basket삭제
+    private List<Basket> basket;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true) // user 삭제시 salaylist삭제
+    private List<Salaylist> salaylist;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true) // user 삭제시 notice삭제
+    private List<Notice> notice;
 
 }

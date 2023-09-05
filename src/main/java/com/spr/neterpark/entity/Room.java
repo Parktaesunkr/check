@@ -3,9 +3,7 @@ package com.spr.neterpark.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
@@ -13,6 +11,9 @@ import javax.persistence.Id;
 public class Room {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int rmno; // 상영관 번호
+
     @Column(length = 50)
     private String rmName; // 상영관 이름
 

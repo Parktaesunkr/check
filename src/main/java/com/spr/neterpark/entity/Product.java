@@ -35,11 +35,11 @@ public class Product {
     @Column(length = 3)
     private int proNum; // 상영 횟수
 
-    @Column(length = 50)
-    private String rmName; // 상영관
+    @Column
+    private int rmno; // 상영관
 
-    @ManyToOne
-    @JoinColumn(name = "rmName", insertable = false, updatable = false)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "rmno", insertable = false, updatable = false)
     private Room room;
 
 }
