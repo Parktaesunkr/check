@@ -35,6 +35,23 @@ public class ProductController {
         return productService.addProduct(product);
     }
 
+    @PutMapping("/updapro")
+    public Product updaPro(@RequestBody Product product){
+
+        Product updateProduct = productService.getProductById(product);
+        updateProduct.setCategory(product.getCategory());
+        updateProduct.setImgurl(product.getImgurl());
+        updateProduct.setProName(product.getProName());
+        updateProduct.setProTime(product.getProTime());
+        updateProduct.setStartDate(product.getStartDate());
+        updateProduct.setEndDate(product.getEndDate());
+
+
+        Product updated = productService.addProduct(updateProduct);
+        return updated;
+
+    }
+
     @DeleteMapping("/deletepro")
     public void deletePro(@RequestBody Product product){
         productService.deleteProduct(product);}
