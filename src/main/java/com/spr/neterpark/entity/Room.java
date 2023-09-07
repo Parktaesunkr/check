@@ -1,9 +1,11 @@
 package com.spr.neterpark.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
-
 import javax.persistence.*;
+import java.util.List;
+
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
@@ -19,4 +21,9 @@ public class Room {
 
     @Column(length = 5)
     private int rmSeat; // 좌석 수
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Product> product;
+
 }
